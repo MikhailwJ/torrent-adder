@@ -5,7 +5,7 @@ import { SessionAccessLevelEnum, StorageEnum } from './enums.js';
  * Chrome reference error while running `processTailwindFeatures` in tailwindcss.
  *  To avoid this, we need to check if the globalThis.chrome is available and add fallback logic.
  */
-const chrome = globalThis.chrome;
+// const chrome = (globalThis as { chrome: typeof chrome }).chrome;
 
 /**
  * Sets or updates an arbitrary cache with a new value or the result of an update function.

@@ -17,20 +17,32 @@
     "clean:node_modules": "pnpx rimraf node_modules",
     "clean:turbo": "rimraf .turbo",
     "clean": "pnpm clean:bundle && pnpm clean:node_modules && pnpm clean:turbo",
-    "ready": "tsc -b && tsc-alias -p tsconfig.json",
+    "ready": "tsc -b && tsc-alias -p tsconfig.json && tailwindcss -i ./lib/global.css -o ./dist/global.css -m",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "prettier": "prettier . --write",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@extension/storage": "workspace:*",
     "@extension/shared": "workspace:*",
+    "@extension/storage": "workspace:*",
+    "@tanstack/react-router": "^1.116.0",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.4.0"
+    "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
     "@extension/tsconfig": "workspace:*",
-    "tsc-alias": "^1.8.10"
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.0",
+    "tsc-alias": "^1.8.15",
+    "vitest": "^3.1.1"
   }
 }

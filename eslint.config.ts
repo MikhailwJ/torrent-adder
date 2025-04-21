@@ -8,6 +8,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
 import ts from 'typescript-eslint';
+import pluginRouter from '@tanstack/eslint-plugin-router';
 
 export default ts.config(
   // Shared configs
@@ -17,6 +18,7 @@ export default ts.config(
   eslintPluginImportX.flatConfigs.recommended,
   eslintPluginImportX.flatConfigs.typescript,
   eslintPluginPrettierRecommended,
+  ...pluginRouter.configs['flat/recommended'],
   ...fixupConfigRules(new FlatCompat().extends('plugin:react-hooks/recommended') as FixupConfigArray),
   {
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],

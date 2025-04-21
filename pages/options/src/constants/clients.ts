@@ -1,0 +1,26 @@
+export const SERVER_TYPES = [
+  'Buffalo WebUI (OLD!)',
+  'Deluge WebUI',
+  'pyrt WebUI',
+  'qBittorrent WebUI',
+  'qBittorrent v4.1+ WebUI',
+  'ruTorrent WebUI',
+  'Torrentflux WebUI',
+  'Transmission WebUI',
+  'uTorrent WebUI',
+  'Vuze SwingUI',
+  'Vuze HTML WebUI',
+  'Bigly/Vuze Remote WebUI',
+  'Tixati WebUI',
+  'Hadouken WebUI',
+  'NodeJS-rTorrent WebUI',
+  'Synology WebUI',
+  'flood WebUI',
+  'flood-jesec WebUI',
+  'QNAP DownloadStation',
+  'tTorrent WebUI',
+  'rTorrent XML-RPC',
+  'Elementum WebUI',
+] as const;
+
+export type Server = (typeof SERVER_TYPES)[number];

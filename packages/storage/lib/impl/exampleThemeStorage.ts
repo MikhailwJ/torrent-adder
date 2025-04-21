@@ -7,7 +7,9 @@ type ThemeStorage = BaseStorage<Theme> & {
   toggle: () => Promise<void>;
 };
 
-const storage = createStorage<Theme>('theme-storage-key', 'light', {
+const isDarkMode = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const storage = createStorage<Theme>('theme-storage-key', isDarkMode() ? 'dark' : 'light', {
   storageEnum: StorageEnum.Local,
   liveUpdate: true,
 });

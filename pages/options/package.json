@@ -20,20 +20,24 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@extension/i18n": "workspace:*",
     "@extension/shared": "workspace:*",
     "@extension/storage": "workspace:*",
     "@extension/ui": "workspace:*",
-    "@extension/i18n": "workspace:*"
+    "@hookform/resolvers": "^5.0.1",
+    "@tanstack/react-router": "^1.116.0",
+    "@tanstack/react-router-devtools": "^1.116.0",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.6",
+    "react-hook-form": "^7.56.0",
+    "use-debounce": "^10.0.4",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@extension/tailwindcss-config": "workspace:*",
     "@extension/tsconfig": "workspace:*",
-    "@extension/vite-config": "workspace:*"
-  },
-  "postcss": {
-    "plugins": {
-      "tailwindcss": {},
-      "autoprefixer": {}
-    }
+    "@extension/vite-config": "workspace:*",
+    "@tanstack/router-plugin": "^1.116.1",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }
