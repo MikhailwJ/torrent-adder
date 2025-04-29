@@ -251,6 +251,10 @@ importers:
         version: link:../tsconfig
 
   packages/storage:
+    dependencies:
+      zod:
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@extension/tsconfig':
         specifier: workspace:*

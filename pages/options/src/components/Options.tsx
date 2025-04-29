@@ -1,12 +1,12 @@
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
+import { themeStorage } from '@extension/storage';
 import { Navbar, Tab, Tabs } from '@extension/ui';
 import type { FileRouteTypes } from '@src/routeTree.gen';
 import { useLocation, useRouter, type ReactNode } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 
 const Options = ({ children }: ReactNode) => {
-  const theme = useStorage(exampleThemeStorage);
+  const theme = useStorage(themeStorage);
   const isLight = theme === 'light';
 
   const router = useRouter();
