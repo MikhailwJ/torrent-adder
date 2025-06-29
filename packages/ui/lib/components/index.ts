@@ -13,3 +13,4 @@ export * from './navbar';
 export * from './radio';
 export * from './select';
 export * from './tabs';
+export * from './error-display/ErrorDisplay';

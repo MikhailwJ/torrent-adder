@@ -1,6 +1,6 @@
+import { Collapse, CollapseContent, CollapseTitle } from '.';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createRef } from 'react';
-import { Collapse, CollapseContent, CollapseTitle } from '.';
 
 describe('Collapse', () => {
   test('Should render Collapse', () => {

@@ -1,11 +1,9 @@
 import { clsx } from 'clsx';
-import type { JSX, ReactElement, SelectHTMLAttributes } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { ComponentColor, ComponentSize, ListOrItem } from '../types';
-
 import type { SelectOptionProps } from './select-option';
+import type { JSX, ReactElement, SelectHTMLAttributes } from 'react';
 
 export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size' | 'color'> & {
   children?: ListOrItem<ReactElement<SelectOptionProps>>;

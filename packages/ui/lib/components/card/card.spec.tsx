@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { createRef } from 'react';
 import { Card, CardActions, CardBody, CardImage } from '.';
 import { CardTitle } from './card-title';
+import { render, screen } from '@testing-library/react';
+import { createRef } from 'react';
 
 describe('Card', () => {
   it('Should render Card', () => {

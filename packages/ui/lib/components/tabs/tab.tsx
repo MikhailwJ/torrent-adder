@@ -1,21 +1,20 @@
+import { Link } from '@tanstack/react-router';
 import { clsx } from 'clsx';
-import type { ComponentProps, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-import { Link } from '@tanstack/react-router';
 import type { ComponentColor } from '../types';
+import type { LinkComponentProps } from '@tanstack/react-router';
 
-export type TabProps = ComponentProps<typeof Link> & {
+export interface TabProps extends LinkComponentProps {
   color?: ComponentColor;
   bgColor?: string;
   borderColor?: string;
   active?: boolean;
   disabled?: boolean;
-};
+}
 
 export const Tab = forwardRef<HTMLAnchorElement, TabProps>(
-  ({ children, className, color, bgColor, borderColor, active, disabled, ...props }, ref): JSX.Element => {
+  ({ children, className, color, bgColor, borderColor, active, disabled, ...props }, ref) => {
     const classes = twMerge(
       'tab',
       className,
@@ -34,6 +33,7 @@ export const Tab = forwardRef<HTMLAnchorElement, TabProps>(
         'tab-disabled': disabled,
       }),
     );
+
     return (
       <Link role="tab" {...props} ref={ref} className={classes}>
         {children}

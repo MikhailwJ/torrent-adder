@@ -1,9 +1,8 @@
-import { twMerge } from 'tailwind-merge';
-
-import type { HTMLAttributes, JSX } from 'react';
-import { forwardRef } from 'react';
-import type { NavbarSectionProps } from './navbar-sections';
 import { NavbarSection } from './navbar-sections';
+import { forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
+import type { NavbarSectionProps } from './navbar-sections';
+import type { HTMLAttributes, JSX } from 'react';
 
 export type NavbarProps = HTMLAttributes<HTMLDivElement>;
 

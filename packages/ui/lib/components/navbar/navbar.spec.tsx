@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
-import { createRef } from 'react';
 import { Navbar } from '.';
 import { NavbarStart, NavbarCenter, NavbarEnd } from './navbar';
+import { render } from '@testing-library/react';
+import { createRef } from 'react';
 
 describe('NavBar', () => {
   it('Should render NavBar', () => {

@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
-import type { InputHTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { ComponentColor } from '../types';
+import type { InputHTMLAttributes, JSX } from 'react';
 
 export type RadioTabProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'color'> & {
   color?: ComponentColor;

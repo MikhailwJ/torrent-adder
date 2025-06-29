@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import type { HTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { ComponentPosition, ComponentSize } from '../types';
+import type { HTMLAttributes, JSX } from 'react';
 
 type TabsProps = HTMLAttributes<HTMLDivElement> & {
   variant?: 'bordered' | 'lift' | 'boxed';

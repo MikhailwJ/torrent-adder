@@ -1,28 +1,26 @@
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
+import { Select, SelectOption } from '.';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ComponentProps } from 'react';
 import { useState } from 'react';
-import { Select, SelectOption } from '.';
 import type { ComponentColor, ComponentSize } from '../types';
+import type { ComponentProps } from 'react';
 
 type SelectProps = ComponentProps<typeof Select>;
 
-const TestComponent = (props?: ComponentProps<typeof Select>) => {
-  return (
-    <Select {...props}>
-      <SelectOption value="" disabled>
-        Pick your favorite Simpson
-      </SelectOption>
-      <SelectOption value="Homer">Homer</SelectOption>
-      <SelectOption value="Marge">Marge</SelectOption>
-      <SelectOption value="Bart">Bart</SelectOption>
-      <SelectOption value="Lisa">Lisa</SelectOption>
-      <SelectOption value="Maggie">Maggie</SelectOption>
-    </Select>
-  );
-};
+const TestComponent = (props?: ComponentProps<typeof Select>) => (
+  <Select {...props}>
+    <SelectOption value="" disabled>
+      Pick your favorite Simpson
+    </SelectOption>
+    <SelectOption value="Homer">Homer</SelectOption>
+    <SelectOption value="Marge">Marge</SelectOption>
+    <SelectOption value="Bart">Bart</SelectOption>
+    <SelectOption value="Lisa">Lisa</SelectOption>
+    <SelectOption value="Maggie">Maggie</SelectOption>
+  </Select>
+);
 
 const ControlledTestComponent = (props?: Omit<SelectProps, 'children'>) => {
   const [value, setValue] = useState(props?.value);

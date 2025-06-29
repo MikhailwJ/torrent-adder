@@ -1,6 +1,6 @@
+import { Form, Label } from '.';
 import { render } from '@testing-library/react';
 import { createRef } from 'react';
-import { Form, Label } from '.';
 
 describe('Form', () => {
   test('Should render Form', () => {

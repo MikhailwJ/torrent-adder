@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
 import { Loading } from '.';
+import { render } from '@testing-library/react';
 
 describe('Loading', () => {
   it('renders a default variant', () => {

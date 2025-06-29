@@ -1,25 +1,22 @@
-import type { BaseStorage } from '../base/index.js';
 import { createStorage, StorageEnum } from '../base/index.js';
+import type { ThemeState, ThemeStorage } from '../base/index.js';
 
-type Theme = 'light' | 'dark';
+const storage = createStorage<ThemeState>(
+  'theme-storage-key',
+  { theme: 'light', isLight: true },
+  { storageEnum: StorageEnum.Local, liveUpdate: true },
+);
 
-type ThemeStorage = BaseStorage<Theme> & {
-  toggle: () => Promise<void>;
-};
-
-const isDarkMode = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-const storage = createStorage<Theme>('theme-storage-key', isDarkMode() ? 'dark' : 'light', {
-  storageEnum: StorageEnum.Local,
-  liveUpdate: true,
-});
-
-// You can extend it with your own methods
 export const themeStorage: ThemeStorage = {
   ...storage,
   toggle: async () => {
-    await storage.set(currentTheme => {
-      return currentTheme === 'light' ? 'dark' : 'light';
+    await storage.set(currentState => {
+      const newTheme = currentState.theme === 'light' ? 'dark' : 'light';
+
+      return {
+        theme: newTheme,
+        isLight: newTheme === 'light',
+      };
     });
   },
 };

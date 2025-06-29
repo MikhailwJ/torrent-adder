@@ -1,9 +1,7 @@
-import '@extension/ui/lib/global.css';
-import '@src/index.css';
+import { routeTree } from './routeTree.gen';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { routeTree } from './routeTree.gen';
 
 // Create a new router instance
 const router = createRouter({ routeTree, basepath: '/options/index.html' });

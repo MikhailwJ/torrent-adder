@@ -1,9 +1,9 @@
+import { inputClasses } from '../input/utils';
 import { clsx } from 'clsx';
-import type { JSX, LabelHTMLAttributes } from 'react';
 import { createContext, forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { ComponentSize, ComponentColor } from '../types';
-import { inputClasses } from '../input/utils';
+import type { JSX, LabelHTMLAttributes } from 'react';
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> &
   (

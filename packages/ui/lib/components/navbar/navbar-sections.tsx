@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
+import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { NavbarProps } from './navbar';
 import type { JSX } from 'react';
-import { forwardRef } from 'react';
 
 export type NavbarSectionProps = NavbarProps & {
   section: 'start' | 'center' | 'end';

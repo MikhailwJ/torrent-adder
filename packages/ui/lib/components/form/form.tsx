@@ -1,6 +1,6 @@
-import type { FormHTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { FormHTMLAttributes, JSX } from 'react';
 
 export type FormProps = FormHTMLAttributes<HTMLFormElement>;
 

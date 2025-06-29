@@ -6,6 +6,8 @@ packages:
 
 onlyBuiltDependencies:
   - '@swc/core'
+  - '@tailwindcss/oxide'
   - edgedriver
   - esbuild
   - geckodriver
+  - unrs-resolver

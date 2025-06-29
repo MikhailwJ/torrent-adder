@@ -1,1 +1,2 @@
+eval "$(fnm env --use-on-cd --shell bash)"
 pnpm dlx lint-staged --allow-empty

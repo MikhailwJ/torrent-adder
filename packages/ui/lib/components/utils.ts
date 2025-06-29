@@ -1,16 +1,15 @@
-import type { HtmlHTMLAttributes, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, Fragment, isValidElement } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { HtmlHTMLAttributes, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-export const toTitleCase = (str: string) => {
-  return str
+export const toTitleCase = (str: string) =>
+  str
     .toLowerCase()
     .split(' ')
     .map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(' ');
-};
 
 // Returns true if an element is a react fragment
 export const isReactFragment = (node: ReactNode | typeof Fragment) => {
@@ -54,11 +53,8 @@ export const wrapWithElementIfInvalid = ({
 };
 
 // Returns true if there is a single, string child element
-export const isSingleStringChild = (children?: ReactNode) => {
-  return (
-    children &&
-    Children.count(children) === 1 &&
-    isValidElement(children) &&
-    typeof (children.props as { children?: ReactNode }).children === 'string'
-  );
-};
+export const isSingleStringChild = (children?: ReactNode) =>
+  children &&
+  Children.count(children) === 1 &&
+  isValidElement(children) &&
+  typeof (children.props as { children?: ReactNode }).children === 'string';

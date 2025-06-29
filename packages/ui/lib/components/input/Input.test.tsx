@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import { Input } from '.';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Input', () => {
   it('Should render Input', () => {

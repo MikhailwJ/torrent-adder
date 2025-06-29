@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import type { HTMLAttributes, JSX, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { ComponentLayout, ComponentStatus, ComponentVariant } from '../types';
+import type { HTMLAttributes, JSX, ReactNode } from 'react';
 
 export type AlertProps = HTMLAttributes<HTMLDivElement> & {
   icon?: ReactNode;

@@ -1,9 +1,9 @@
-import { popupDurationStore, showPopupsStore } from '@extension/storage';
 import { audioNotification } from './notification.js';
+import { popupDurationStore, showPopupsStore } from '@extension/storage';
 
 export async function displayResponse(title: string, message: string, error = false) {
   if (await showPopupsStore.get()) {
-    const opts: chrome.notifications.NotificationOptions<true> = {
+    const opts: chrome.notifications.NotificationCreateOptions = {
       type: 'basic',
       iconUrl: error === true ? 'icons/BitTorrent128-red.png' : 'icons/BitTorrent128.png',
       title: title,

@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import type { HTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { ComponentSize, ComponentVariant } from '../types';
+import type { HTMLAttributes, JSX } from 'react';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
   size?: ComponentSize;

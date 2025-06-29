@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import type { HTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import type { ComponentColor, ComponentSize } from '../types';
+import type { HTMLAttributes, JSX } from 'react';
 
 export type LoadingProps = HTMLAttributes<HTMLSpanElement> & {
   size?: ComponentSize;

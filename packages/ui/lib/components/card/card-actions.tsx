@@ -1,6 +1,6 @@
-import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { HTMLAttributes } from 'react';
 
 export type CardActionsProps = HTMLAttributes<HTMLDivElement>;
 

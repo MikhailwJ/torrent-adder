@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
-import type { FocusEvent, HTMLAttributes, JSX } from 'react';
 import { forwardRef, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { FocusEvent, HTMLAttributes, JSX } from 'react';
 
 export type CollapseProps<T extends HTMLElement = HTMLDivElement> = HTMLAttributes<T> & {
   checkbox?: boolean;

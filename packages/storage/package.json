@@ -1,6 +1,6 @@
 {
   "name": "@extension/storage",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "chrome extension - storage",
   "type": "module",
   "private": true,
@@ -18,14 +18,14 @@
     "ready": "tsc -b",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
-    "prettier": "prettier . --write --ignore-path ../../.prettierignore",
+    "format": "prettier . --write --ignore-path ../../.prettierignore",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@extension/tsconfig": "workspace:*",
-    "@types/chrome": "0.0.315"
+    "@types/chrome": "0.0.328"
   },
   "dependencies": {
-    "zod": "^3.24.3"
+    "zod": "^3.25.67"
   }
 }

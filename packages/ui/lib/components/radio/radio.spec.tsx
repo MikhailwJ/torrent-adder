@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { Radio } from '.';
+import { Button } from '../button';
+import { Form, Label } from '../form';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Radio } from '.';
-import { Form, Label } from '../form';
-import { Button } from '../button';
+import { useState } from 'react';
 
 const TestRadio2 = () => {
   const [pill, setPill] = useState('blue');

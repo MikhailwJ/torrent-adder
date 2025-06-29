@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
+import { Checkbox } from '.';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import type { ComponentColor, ComponentSize } from '../types';
-import { Checkbox } from '.';
 
 const ControlledCheckbox = () => {
   const [checked, setChecked] = useState(false);

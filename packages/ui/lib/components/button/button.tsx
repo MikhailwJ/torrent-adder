@@ -1,4 +1,8 @@
+import { Loading } from '../loading';
 import { clsx } from 'clsx';
+import { forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
+import type { ComponentColor, ComponentShape, ComponentSize, ComponentVariant } from '../types';
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
@@ -10,11 +14,6 @@ import type {
   LabelHTMLAttributes,
   ReactNode,
 } from 'react';
-import { forwardRef } from 'react';
-import { twMerge } from 'tailwind-merge';
-
-import { Loading } from '../loading';
-import type { ComponentColor, ComponentShape, ComponentSize, ComponentVariant } from '../types';
 
 type ITagProps = {
   a: {

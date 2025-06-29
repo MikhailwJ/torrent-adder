@@ -1,7 +1,7 @@
 import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
-import { t } from '@extension/i18n';
+import { themeStorage } from '@extension/storage';
+// import { t } from '@extension/i18n';
 // import { ToggleButton } from '@extension/ui';
 
 const notificationOptions = {
@@ -12,7 +12,7 @@ const notificationOptions = {
 } as const;
 
 const Popup = () => {
-  const theme = useStorage(exampleThemeStorage);
+  const theme = useStorage(themeStorage);
   const isLight = theme === 'light';
   const logo = isLight ? 'popup/logo_vertical.svg' : 'popup/logo_vertical_dark.svg';
   const goGithubSite = () =>
@@ -49,7 +49,7 @@ const Popup = () => {
         </p>
         <button
           className={
-            'font-bold mt-4 py-1 px-4 rounded shadow hover:scale-105 ' +
+            'mt-4 rounded px-4 py-1 font-bold shadow hover:scale-105 ' +
             (isLight ? 'bg-blue-200 text-black' : 'bg-gray-700 text-white')
           }
           onClick={injectContentScript}>

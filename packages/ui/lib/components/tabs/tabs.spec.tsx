@@ -1,6 +1,5 @@
-import { render, screen } from '@testing-library/react';
-
 import { RadioTab, Tab, Tabs } from '.';
+import { render, screen } from '@testing-library/react';
 
 describe('Tabs', () => {
   const tabLabel1 = 'one';

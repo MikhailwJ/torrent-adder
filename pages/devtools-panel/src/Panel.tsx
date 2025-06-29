@@ -1,11 +1,11 @@
 import '@src/Panel.css';
-import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
-import type { ComponentPropsWithoutRef } from 'react';
 import { t } from '@extension/i18n';
+import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
+import { themeStorage } from '@extension/storage';
+import type { ComponentPropsWithoutRef } from 'react';
 
 const Panel = () => {
-  const theme = useStorage(exampleThemeStorage);
+  const theme = useStorage(themeStorage);
   const isLight = theme === 'light';
   const logo = isLight ? 'devtools-panel/logo_horizontal.svg' : 'devtools-panel/logo_horizontal_dark.svg';
   const goGithubSite = () =>
@@ -20,23 +20,23 @@ const Panel = () => {
         <p>
           Edit <code>pages/devtools-panel/src/Panel.tsx</code>
         </p>
-        <ToggleButton onClick={exampleThemeStorage.toggle}>{t('toggleTheme')}</ToggleButton>
+        <ToggleButton onClick={themeStorage.toggle}>{t('toggleTheme')}</ToggleButton>
       </header>
     </div>
   );
 };
 
 const ToggleButton = (props: ComponentPropsWithoutRef<'button'>) => {
-  const theme = useStorage(exampleThemeStorage);
+  const theme = useStorage(themeStorage);
   return (
     <button
       className={
         props.className +
         ' ' +
-        'font-bold mt-4 py-1 px-4 rounded shadow hover:scale-105 ' +
+        'mt-4 rounded px-4 py-1 font-bold shadow hover:scale-105' +
         (theme === 'light' ? 'bg-white text-black' : 'bg-black text-white')
       }
-      onClick={exampleThemeStorage.toggle}>
+      onClick={themeStorage.toggle}>
       {props.children}
     </button>
   );

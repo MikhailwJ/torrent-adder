@@ -1,10 +1,9 @@
-import type { InputHTMLAttributes, JSX } from 'react';
-import { forwardRef, useContext } from 'react';
-import { twMerge } from 'tailwind-merge';
-
-import type { ComponentColor, ComponentSize } from '../types';
 import { inputClasses } from './utils';
 import { LabelContext } from '../form/label';
+import { forwardRef, useContext } from 'react';
+import { twMerge } from 'tailwind-merge';
+import type { ComponentColor, ComponentSize } from '../types';
+import type { InputHTMLAttributes, JSX } from 'react';
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'color'> & {
   size?: ComponentSize;

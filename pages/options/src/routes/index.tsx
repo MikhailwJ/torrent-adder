@@ -1,6 +1,8 @@
+import QBittorrentIcon from '../assets/qBittorrent.svg?react';
+import { CLIENTS, configStore, serverStore } from '@extension/storage';
+import { ServerSettingsSchema } from '@extension/storage/lib/base';
 import {
   Button,
-  Checkbox,
   Form,
   Input,
   Label,
@@ -12,39 +14,41 @@ import {
   Select,
   SelectOption,
 } from '@extension/ui';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-
-import QBittorrentIcon from '../assets/qBittorrent.svg?react';
 import { useDebouncedCallback } from 'use-debounce';
-import type { Server } from '@extension/storage';
-import { serverStore, SERVER_TYPES, ServerSchema } from '@extension/storage';
+import type { ServerSettings } from '@extension/storage';
+import type { SubmitHandler } from 'react-hook-form';
 
 export const Route = createFileRoute('/')({
   component: Index,
 });
 
 function Index() {
-  const [items, setItems] = useState<Server[]>([]);
+  const [items, setItems] = useState<ServerSettings[]>([]);
   const [newItem, setItem] = useState<boolean>(false);
   const [selected, setSelected] = useState<number>(0);
 
   useEffect(() => {
-    serverStore.get().then(servers => {
-      setItems(servers);
-    });
+    const init = async () => {
+      const servers = await serverStore.get();
+      const { currentServer } = await configStore.get();
+      const index = servers.findIndex(item => item.application === currentServer);
+      if (index !== -1) return setSelected(index);
+      setSelected(0);
+    };
+    init();
   }, []);
 
-  const onSubmit = (data: Server) => {
+  const onSubmit = (data: ServerSettings) => {
     serverStore.set([...items, data]);
     setItems([...items, data]);
     setItem(false);
   };
 
-  const onEdit = (data: Server) => {
+  const onEdit = (data: ServerSettings) => {
     const newItems = [...items];
     newItems[selected] = data;
     serverStore.set(newItems);
@@ -52,12 +56,7 @@ function Index() {
   };
 
   const handleSelect = (index: number) => {
-    setItems(prev => {
-      const newItems = prev.map(item => ({ ...item, selected: false }));
-      newItems[index].selected = true;
-      serverStore.set(newItems);
-      return newItems;
-    });
+    configStore.set(store => ({ ...store, currentServer: items[index].application }));
     setSelected(index);
   };
 
@@ -73,8 +72,10 @@ function Index() {
       <div className="grid grid-cols-2 gap-2">
         <List>
           {newItem && <RowItem onSubmit={onSubmit} />}
-          {!items.length && !newItem && <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">no items</li>}
-          {items?.map((item, i) => <RowItem item={item} onClick={() => handleSelect(i)} />)}
+          {!items.length && !newItem && <li className="p-4 pb-2 text-xs tracking-wide opacity-60">no items</li>}
+          {items?.map((item, i) => (
+            <RowItem item={item} onClick={() => handleSelect(i)} selected={selected === i} />
+          ))}
         </List>
         <EditItem item={items[selected]} onSubmit={onEdit} />
       </div>
@@ -84,23 +85,25 @@ function Index() {
 
 const RowItem = ({
   item,
+  selected = false,
   onSubmit,
   onClick,
 }: {
-  item?: Server;
-  onSubmit?: (data: Server) => void;
+  item?: ServerSettings;
+  selected?: boolean;
+  onSubmit?: (data: ServerSettings) => void;
   onClick?: () => void;
 }) => {
   if (item) {
     return (
       <ListRow className="items-center" onClick={() => onClick?.()}>
-        <Radio name="selected" value={item.name} onClick={() => onClick?.()} checked={item.selected} />
+        <Radio name="selected" value={item.name} onClick={() => onClick?.()} checked={selected} />
         <div>
-          <QBittorrentIcon className="size-10 rounded-box" />
+          <QBittorrentIcon className="rounded-box size-10" />
         </div>
         <ListColGrow>
           <div>{item.name}</div>
-          <div className="text-xs uppercase font-semibold opacity-60">{item.type}</div>
+          <div className="text-xs font-semibold uppercase opacity-60">{item.application}</div>
         </ListColGrow>
       </ListRow>
     );
@@ -109,15 +112,19 @@ const RowItem = ({
   return <NewItem onSubmit={data => onSubmit?.(data)} />;
 };
 
-const NewItem = (props: { onSubmit: (data: Server) => void }) => {
-  const defaultValues = { name: '', type: SERVER_TYPES[0] };
+const NewItem = (props: { onSubmit: (data: ServerSettings) => void }) => {
+  const defaultValues: Partial<ServerSettings> = { name: '', application: CLIENTS.qbittorrent.id };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Server>({ defaultValues, resolver: zodResolver(ServerSchema), reValidateMode: 'onBlur' });
+  } = useForm<ServerSettings>({
+    defaultValues,
+    resolver: standardSchemaResolver(ServerSettingsSchema),
+    reValidateMode: 'onBlur',
+  });
 
-  const onSubmit: SubmitHandler<Server> = (data: Server) => {
+  const onSubmit: SubmitHandler<ServerSettings> = (data: ServerSettings) => {
     props.onSubmit(data);
   };
 
@@ -126,21 +133,21 @@ const NewItem = (props: { onSubmit: (data: Server) => void }) => {
       <ListRow className="items-center">
         <Radio name="selected" disabled />
         <div>
-          <QBittorrentIcon className="size-10 rounded-box" />
+          <QBittorrentIcon className="rounded-box size-10" />
         </div>
         <ListColGrow>
-          <Label title="name" type="input" className="text-sm uppercase font-semibold" color={errors.name && 'error'}>
+          <Label title="name" type="input" className="text-sm font-semibold uppercase" color={errors.name && 'error'}>
             <Input {...register('name')} />
           </Label>
         </ListColGrow>
 
         <ListColWrap className="">
-          <div className="text-xs uppercase font-semibold">
+          <div className="text-xs font-semibold uppercase">
             <Label title="client" type="select">
-              <Select size="sm" {...register('type')}>
-                {SERVER_TYPES.map(type => (
-                  <SelectOption value={type} key={type}>
-                    {type}
+              <Select size="sm" {...register('application')}>
+                {Object.values(CLIENTS).map(({ id, name }) => (
+                  <SelectOption value={id} key={id}>
+                    {name}
                   </SelectOption>
                 ))}
               </Select>
@@ -156,16 +163,16 @@ const NewItem = (props: { onSubmit: (data: Server) => void }) => {
   );
 };
 
-const EditItem = ({ item, onSubmit }: { item?: Server; onSubmit: (data: Server) => void }) => {
+const EditItem = ({ item, onSubmit }: { item?: ServerSettings; onSubmit: (data: ServerSettings) => void }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     watch,
-  } = useForm<Server>({ defaultValues: item });
+  } = useForm<ServerSettings>({ defaultValues: item });
 
-  const [name, ssl] = watch(['name', 'ssl']);
+  const [name] = watch(['name']);
   const debounce = useDebouncedCallback(
     handleSubmit(data => onSubmit(data)),
     300,
@@ -182,21 +189,18 @@ const EditItem = ({ item, onSubmit }: { item?: Server; onSubmit: (data: Server) 
         <Input {...register('name')} color={errors.name && 'error'} />
       </Label>
       <Label title="Type">
-        <Select size="sm" {...register('type')} disabled>
-          {SERVER_TYPES.map(type => (
-            <SelectOption value={type} key={type}>
-              {type}
+        <Select size="sm" {...register('application')} disabled>
+          {Object.values(CLIENTS).map(({ name, id }) => (
+            <SelectOption value={id} key={id}>
+              {name}
             </SelectOption>
           ))}
         </Select>
       </Label>
 
-      <div className="flex gap-2 items-center">
-        <Label title={`http${ssl ? 's' : ''}://`} type="input" color={errors.host && 'error'}>
-          <Input {...register('host')} />
-        </Label>
-        <Label title="SSL">
-          <Checkbox {...register('ssl')} type="number" color={errors.ssl && 'error'} />
+      <div className="flex items-center gap-2">
+        <Label title="hostname" type="input" color={errors.hostname && 'error'}>
+          <Input {...register('hostname')} />
         </Label>
       </div>
 

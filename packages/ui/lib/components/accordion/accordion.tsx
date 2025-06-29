@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
-import type { HTMLAttributes, JSX } from 'react';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { HTMLAttributes, JSX } from 'react';
 
 export type AccordionProps = Omit<HTMLAttributes<HTMLInputElement>, 'type'> & {
   name?: string;
