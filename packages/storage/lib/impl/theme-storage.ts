@@ -3,7 +3,7 @@ import type { ThemeState, ThemeStorage } from '../base/index.js';
 
 const storage = createStorage<ThemeState>(
   'theme-storage-key',
-  { theme: 'light', isLight: true },
+  { theme: 'dark', isLight: false },
   { storageEnum: StorageEnum.Local, liveUpdate: true },
 );
 

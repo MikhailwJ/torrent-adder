@@ -1,4 +1,5 @@
 import QBittorrentIcon from '../assets/qBittorrent.svg?react';
+import { useStorage } from '@extension/shared';
 import { CLIENTS, configStore, serverStore } from '@extension/storage';
 import { ServerSettingsSchema } from '@extension/storage/lib/base';
 import {
@@ -27,20 +28,13 @@ export const Route = createFileRoute('/')({
 });
 
 function Index() {
+  const servers = useStorage(serverStore);
+  const { currentServer } = useStorage(configStore);
+  const index = servers.findIndex(item => item.application === currentServer);
+
   const [items, setItems] = useState<ServerSettings[]>([]);
   const [newItem, setItem] = useState<boolean>(false);
-  const [selected, setSelected] = useState<number>(0);
-
-  useEffect(() => {
-    const init = async () => {
-      const servers = await serverStore.get();
-      const { currentServer } = await configStore.get();
-      const index = servers.findIndex(item => item.application === currentServer);
-      if (index !== -1) return setSelected(index);
-      setSelected(0);
-    };
-    init();
-  }, []);
+  const [selected, setSelected] = useState<number>(index !== -1 ? index : 0);
 
   const onSubmit = (data: ServerSettings) => {
     serverStore.set([...items, data]);

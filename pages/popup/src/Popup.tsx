@@ -1,6 +1,7 @@
 import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage } from '@extension/storage';
+import { ErrorDisplay } from '@extension/ui';
 // import { t } from '@extension/i18n';
 // import { ToggleButton } from '@extension/ui';
 
@@ -12,8 +13,8 @@ const notificationOptions = {
 } as const;
 
 const Popup = () => {
-  const theme = useStorage(themeStorage);
-  const isLight = theme === 'light';
+  const { isLight } = useStorage(themeStorage);
+
   const logo = isLight ? 'popup/logo_vertical.svg' : 'popup/logo_vertical_dark.svg';
   const goGithubSite = () =>
     chrome.tabs.create({ url: 'https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite' });
@@ -61,4 +62,4 @@ const Popup = () => {
   );
 };
 
-export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);
+export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), ErrorDisplay);

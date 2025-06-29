@@ -1,14 +1,13 @@
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage } from '@extension/storage';
-import { Navbar, Tab, Tabs } from '@extension/ui';
+import { ErrorDisplay, Navbar, Tab, Tabs } from '@extension/ui';
 import { useLocation, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import type { FileRouteTypes } from '@src/routeTree.gen';
 import type { PropsWithChildren } from 'react';
 
 const Options = ({ children }: PropsWithChildren) => {
-  const theme = useStorage(themeStorage);
-  const isLight = theme === 'light';
+  const { isLight } = useStorage(themeStorage);
 
   const router = useRouter();
   const location = useLocation();
@@ -27,7 +26,7 @@ const Options = ({ children }: PropsWithChildren) => {
   ];
 
   return (
-    <div className={`App ${isLight ? 'bg-slate-50 text-gray-900' : 'bg-gray-800 text-gray-100'} flex h-dvh flex-col`}>
+    <div className={`${isLight ? 'bg-slate-50 text-gray-900' : 'bg-gray-800 text-gray-100'} flex h-dvh flex-col`}>
       <Navbar className="p-4">
         <h1 className="flex items-center text-2xl font-semibold">
           <img src="BitTorrent48.png" alt="BitTorrent!" className="mr-2" /> Remote Torrent Adder Options
@@ -58,4 +57,4 @@ const Options = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default withErrorBoundary(withSuspense(Options, <div> Loading ... </div>), <div> Error Occur </div>);
+export default withErrorBoundary(withSuspense(Options, <div> Loading ... </div>), ErrorDisplay);
