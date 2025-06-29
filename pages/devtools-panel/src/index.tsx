@@ -1,4 +1,3 @@
-import '@src/index.css';
 import Panel from '@src/Panel';
 import { createRoot } from 'react-dom/client';
 

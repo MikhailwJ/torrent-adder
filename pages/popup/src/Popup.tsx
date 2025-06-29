@@ -1,8 +1,9 @@
 import '@src/Popup.css';
+import { t } from '@extension/i18n';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage } from '@extension/storage';
 import { ErrorDisplay } from '@extension/ui';
-// import { t } from '@extension/i18n';
+import { clsx } from 'clsx';
 // import { ToggleButton } from '@extension/ui';
 
 const notificationOptions = {
@@ -14,7 +15,6 @@ const notificationOptions = {
 
 const Popup = () => {
   const { isLight } = useStorage(themeStorage);
-
   const logo = isLight ? 'popup/logo_vertical.svg' : 'popup/logo_vertical_dark.svg';
   const goGithubSite = () =>
     chrome.tabs.create({ url: 'https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite' });
@@ -29,7 +29,7 @@ const Popup = () => {
     await chrome.scripting
       .executeScript({
         target: { tabId: tab.id! },
-        files: ['/content-runtime/index.iife.js'],
+        files: ['/content-runtime/example.iife.js', '/content-runtime/all.iife.js'],
       })
       .catch(err => {
         // Handling errors related to other paths
@@ -40,8 +40,8 @@ const Popup = () => {
   };
 
   return (
-    <div className={`App ${isLight ? 'bg-slate-50' : 'bg-gray-800'}`}>
-      <header className={`App-header ${isLight ? 'text-gray-900' : 'text-gray-100'}`}>
+    <div className={clsx('App', isLight ? 'bg-slate-50' : 'bg-gray-800')}>
+      <header className={clsx('App-header', isLight ? 'text-gray-900' : 'text-gray-100')}>
         <button onClick={goGithubSite}>
           <img src={chrome.runtime.getURL(logo)} className="App-logo" alt="logo" />
         </button>
@@ -49,12 +49,12 @@ const Popup = () => {
           Edit <code>pages/popup/src/Popup.tsx</code>
         </p>
         <button
-          className={
-            'mt-4 rounded px-4 py-1 font-bold shadow hover:scale-105 ' +
-            (isLight ? 'bg-blue-200 text-black' : 'bg-gray-700 text-white')
-          }
+          className={clsx(
+            'mt-4 rounded px-4 py-1 font-bold shadow hover:scale-105',
+            isLight ? 'bg-blue-200 text-black' : 'bg-gray-700 text-white',
+          )}
           onClick={injectContentScript}>
-          Click to inject Content Script
+          {t('injectButton')}
         </button>
         {/* <ToggleButton>{t('toggleTheme')}</ToggleButton> */}
       </header>

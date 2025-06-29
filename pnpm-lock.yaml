@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -414,7 +417,20 @@ importers:
         version: link:../../packages/vite-config
 
   pages/content-runtime:
+    dependencies:
+      '@extension/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@extension/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
     devDependencies:
+      '@extension/hmr':
+        specifier: workspace:*
+        version: link:../../packages/hmr
+      '@extension/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@extension/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -433,22 +449,13 @@ importers:
       '@extension/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@extension/storage':
-        specifier: workspace:*
-        version: link:../../packages/storage
       '@extension/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      tailwindcss:
-        specifier: ^4.1.11
-        version: 4.1.11
     devDependencies:
       '@extension/hmr':
         specifier: workspace:*
         version: link:../../packages/hmr
-      '@extension/tailwindcss-config':
-        specifier: workspace:*
-        version: link:../../packages/tailwind-config
       '@extension/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
