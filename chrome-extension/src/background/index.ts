@@ -367,9 +367,7 @@ function registerHandler() {
     else if (info.menuItemId === 'add-rss-feed') addRssFeed((info.linkUrl || info.selectionText?.trim()) ?? '');
   });
 
-  chrome.action?.onClicked?.addListener(async () => {
-    console.log('onClicked');
-
+  chrome.action.onClicked.addListener(async () => {
     if (!isConfigured()) {
       chrome.runtime.openOptionsPage();
 
