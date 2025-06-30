@@ -38,8 +38,9 @@ export const ClientOptionSchema = z.object({
 export const SelectedOptionsSchema = z
   .object({
     paused: z.boolean(),
-    path: z.string(),
-    label: z.string(),
+    path: z.string().nullable(),
+    server: z.string().nullable(),
+    label: z.string().nullable(),
     sequentialDownload: z.boolean(),
     firstLastPiecePrio: z.boolean(),
     skip_checking: z.boolean(),

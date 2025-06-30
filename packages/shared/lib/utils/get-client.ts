@@ -44,5 +44,5 @@ export const getClient = (serverSettings: ServerSettings) => {
       });
   }
 
-  return new Error('No client found');
+  throw new Error('No client found');
 };

@@ -1,5 +1,3 @@
-export const saveOptions = (options: Record<string, unknown>) => chrome.storage.local.set(options);
-
 export const isMagnetUrl = (url: string) => !!url.match(/^magnet:/);
 
 export const whitelist = [
@@ -23,31 +21,32 @@ export const getMagnetUrlName = (url: string) => {
   return params.has('dn') ? params.get('dn') : false;
 };
 
-export const getTorrentName = (data: Blob) => {
-  const reader = new FileReader();
-  reader.onerror = async () => false;
-  reader.onload = () => {
-    const result = reader.result?.toString() ?? '';
-    const offset = result?.match(/name(\d+):/) || undefined;
-    let text = '';
+export const getTorrentName = (data: Blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = async () => reject(false);
+    reader.onload = () => {
+      const result = reader.result?.toString() ?? '';
+      const offset = result?.match(/name(\d+):/) || undefined;
+      let text = '';
 
-    if (offset?.length && offset.index) {
-      const index = offset.index + offset[0].length;
-      let bytes = 0;
-      text = '';
+      if (offset?.length && offset.index) {
+        const index = offset.index + offset[0].length;
+        let bytes = 0;
+        text = '';
 
-      while (bytes < Number(offset[1])) {
-        const char = result.charAt(index + text.length);
+        while (bytes < Number(offset[1])) {
+          const char = result.charAt(index + text.length);
 
-        text += char;
-        bytes += encodeURIComponent(char).length;
+          text += char;
+          bytes += encodeURIComponent(char).length;
+        }
       }
-    }
 
-    return text;
-  };
-  reader.readAsText(data);
-};
+      return resolve(text);
+    };
+    reader.readAsText(data);
+  });
 
 export const regExpFromString = (regExpStr: string) => {
   const parts = /\/(.*)\/(.*)/.exec(regExpStr);
