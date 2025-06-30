@@ -1,7 +1,7 @@
 import QBittorrentIcon from '../assets/qBittorrent.svg?react';
 import { useStorage } from '@extension/shared';
 import { CLIENTS, configStore, serverStore } from '@extension/storage';
-import { ServerSettingsSchema } from '@extension/storage/lib/base';
+import { ServerSettingSchema, ServerSettingsSchema } from '@extension/storage/lib/base';
 import {
   Button,
   Form,
@@ -15,6 +15,7 @@ import {
   Select,
   SelectOption,
 } from '@extension/ui';
+import { ErrorMessage } from '@hookform/error-message';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
@@ -30,9 +31,9 @@ export const Route = createFileRoute('/')({
 function Index() {
   const servers = useStorage(serverStore);
   const { currentServer } = useStorage(configStore);
-  const index = servers.findIndex(item => item.application === currentServer);
+  const index = servers.findIndex(item => item.name === currentServer);
 
-  const [items, setItems] = useState<ServerSettings[]>([]);
+  const [items, setItems] = useState<ServerSettings[]>(servers);
   const [newItem, setItem] = useState<boolean>(false);
   const [selected, setSelected] = useState<number>(index !== -1 ? index : 0);
 
@@ -50,7 +51,7 @@ function Index() {
   };
 
   const handleSelect = (index: number) => {
-    configStore.set(store => ({ ...store, currentServer: items[index].application }));
+    configStore.set(store => ({ ...store, currentServer: items[index].name }));
     setSelected(index);
   };
 
@@ -163,46 +164,54 @@ const EditItem = ({ item, onSubmit }: { item?: ServerSettings; onSubmit: (data: 
     handleSubmit,
     reset,
     formState: { errors },
-    watch,
-  } = useForm<ServerSettings>({ defaultValues: item });
-
-  const [name] = watch(['name']);
-  const debounce = useDebouncedCallback(
-    handleSubmit(data => onSubmit(data)),
-    300,
-  );
+    getValues,
+  } = useForm<ServerSettings>({
+    defaultValues: item,
+    resolver: standardSchemaResolver(ServerSettingSchema),
+    reValidateMode: 'onSubmit',
+  });
 
   useEffect(() => {
-    if (name === item?.name) return;
-    reset(item);
-  }, [item, name, reset]);
+    const { name } = getValues();
+    if (name !== item?.name) reset(item);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item?.name, reset]);
+
+  const debounce = useDebouncedCallback(
+    handleSubmit(onSubmit, () => onSubmit(getValues())),
+    300,
+  );
 
   return (
     <Form className="flex flex-col gap-4" onChange={debounce}>
       <Label title="Name">
         <Input {...register('name')} color={errors.name && 'error'} />
+        <ErrorMessage errors={errors} name="root" />
+        <ErrorMessage errors={errors} name="name" />
       </Label>
-      <Label title="Type">
-        <Select size="sm" {...register('application')} disabled>
+      <Label title="Application">
+        <Select {...register('application')} disabled>
           {Object.values(CLIENTS).map(({ name, id }) => (
             <SelectOption value={id} key={id}>
               {name}
             </SelectOption>
           ))}
         </Select>
+        <ErrorMessage errors={errors} name="application" />
       </Label>
 
-      <div className="flex items-center gap-2">
-        <Label title="hostname" type="input" color={errors.hostname && 'error'}>
-          <Input {...register('hostname')} />
-        </Label>
-      </div>
+      <Label title="hostname">
+        <Input {...register('hostname')} color={errors.hostname && 'error'} placeholder="http://hostname.tld" />
+        <ErrorMessage errors={errors} name="hostname" />
+      </Label>
 
       <Label title="Username">
         <Input {...register('username')} color={errors.username && 'error'} placeholder="Username" />
+        <ErrorMessage errors={errors} name="username" />
       </Label>
       <Label title="Password">
         <Input {...register('password')} color={errors.password && 'error'} type="password" />
+        <ErrorMessage errors={errors} name="password" />
       </Label>
     </Form>
   );

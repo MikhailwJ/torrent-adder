@@ -1,5 +1,5 @@
-import { sampleFunction } from '@src/sample-function';
+import { fetchTorrentListener } from '@src/fetch-torrent-listener';
 
 console.log('[CEB] All content script loaded');
 
-void sampleFunction();
+chrome.runtime.onMessage.addListener(fetchTorrentListener);

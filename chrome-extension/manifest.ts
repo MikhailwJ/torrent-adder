@@ -52,10 +52,10 @@ const manifest = {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       js: ['content/all.iife.js'],
     },
-    {
-      matches: ['https://example.com/*'],
-      js: ['content/example.iife.js'],
-    },
+    // {
+    //   matches: ['https://example.com/*'],
+    //   js: ['content/example.iife.js'],
+    // },
     {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       js: ['content-ui/all.iife.js'],

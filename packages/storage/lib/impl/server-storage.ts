@@ -1,4 +1,5 @@
-import { CLIENTS, ConfigSchema, createStorage, ServerSettingsSchema, StorageEnum } from '../base/index.js';
+import { ConfigSchema, ServerSettingsSchema } from '../base/config-schema.js';
+import { CLIENTS, createStorage, StorageEnum } from '../base/index.js';
 import type { ConfigState, ServerSettings } from '../base/index.js';
 
 const initConfig = {
@@ -26,7 +27,7 @@ const initServers = [
     defaultDirectory: null,
   },
   {
-    name: 'Default',
+    name: 'Vuze',
     application: CLIENTS.vuze_webui.id,
     hostname: '127.0.0.1:6883',
     username: 'login',
@@ -39,17 +40,13 @@ const initServers = [
   },
 ];
 
-export const configStore = createStorage<ConfigState>('servers', initConfig, {
+export const configStore = createStorage<ConfigState>('config', initConfig, {
   storageEnum: StorageEnum.Local,
   serialization: {
     serialize: value => (typeof value === 'string' ? value : JSON.stringify(value)),
-    deserialize: value => {
+    deserialize: async value => {
       const data = typeof value === 'string' ? JSON.parse(value) : value;
-      try {
-        return ConfigSchema.parse(data);
-      } catch {
-        return initConfig;
-      }
+      return (await ConfigSchema.safeParseAsync(data)).data;
     },
   },
 });
@@ -58,13 +55,9 @@ export const serverStore = createStorage<ServerSettings[]>('servers', initServer
   storageEnum: StorageEnum.Local,
   serialization: {
     serialize: value => (typeof value === 'string' ? value : JSON.stringify(value)),
-    deserialize: value => {
+    deserialize: async value => {
       const data = typeof value === 'string' ? JSON.parse(value) : value;
-      try {
-        return ServerSettingsSchema.parse(data);
-      } catch {
-        return initServers;
-      }
+      return (await ServerSettingsSchema.safeParseAsync(data)).data;
     },
   },
 });

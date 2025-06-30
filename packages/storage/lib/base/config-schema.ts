@@ -55,34 +55,47 @@ export const ClientSchema = z.object({
   clientOptions: z.array(ClientOptionSchema).optional(),
 });
 
-export const ServerSettingsSchema = z
-  .array(
-    z.object({
-      apiVersion: z.number().optional(),
-      name: z.string().min(1, 'Required'),
-      application: ClientIdSchema,
-      hostname: z
-        .string()
-        .min(1, 'Required')
-        .regex(/^(https?:\/\/)?([\w.-]+)(:\d+)?(\/.*)?$/, 'Invalid hostname'),
+export const ServerSettingSchema = z.object({
+  apiVersion: z.number().optional(),
+  name: z.string(),
+  application: ClientIdSchema,
+  hostname: z
+    .string()
+    .min(1, 'Required')
+    .regex(/^(https?:\/\/)?([\w.-]+)(:\d+)?(\/.*)?$/, 'Invalid hostname'),
+  username: z.string().min(1, 'Required'),
+  password: z.string().min(1, 'Required'),
+  directories: z.array(z.string()).optional(),
+  clientOptions: SelectedOptionsSchema.optional(),
+  httpAuth: z
+    .object({
       username: z.string().min(1, 'Required'),
       password: z.string().min(1, 'Required'),
-      directories: z.array(z.string()).optional(),
-      clientOptions: SelectedOptionsSchema.optional(),
-      httpAuth: z
-        .object({
-          username: z.string().min(1, 'Required'),
-          password: z.string().min(1, 'Required'),
-        })
-        .optional(),
-      defaultLabel: z.string().nullable().optional(),
-      defaultDirectory: z.string().nullable().optional(),
-    }),
-  )
-  .default([]);
+    })
+    .optional(),
+  defaultLabel: z.string().nullable().optional(),
+  defaultDirectory: z.string().nullable().optional(),
+});
+// .refine(
+//   async ({ name }) => {
+//     try {
+//       const chrome = globalThis.chrome;
+//       const key = 'servers';
+//       const value = await chrome?.storage.local.get([key]);
+//       const json: { name: string }[] = JSON.parse(value[key]) ?? [];
+//       const valid = json.every(({ name: serverName }) => serverName!.toLowerCase() !== name.toLowerCase());
+//       return valid;
+//     } catch {
+//       return true;
+//     }
+//   },
+//   { error: 'Server names must be unique', path: ['name'] },
+// );
+
+export const ServerSettingsSchema = z.array(ServerSettingSchema);
 
 export const ConfigSchema = z.object({
-  currentServer: ClientIdSchema.optional(),
+  currentServer: z.string().optional(),
   addPaused: z.boolean().optional(),
   addAdvanced: z.boolean().optional().optional(),
   contextMenu: z.number().int().min(0, 'Required').max(2, 'Required').optional(),
@@ -100,5 +113,5 @@ export type SelectedOptions = z.infer<typeof SelectedOptionsSchema>;
 
 export type Values = z.infer<typeof ValuesSchema>;
 
-export type ServerSettings = z.infer<typeof ServerSettingsSchema>[number];
+export type ServerSettings = z.infer<typeof ServerSettingSchema>;
 export type ConfigState = z.infer<typeof ConfigSchema>;

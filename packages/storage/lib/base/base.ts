@@ -61,7 +61,7 @@ export const createStorage = <D = string>(key: string, fallback: D, config?: Sto
   const liveUpdate = config?.liveUpdate ?? false;
 
   const serialize = config?.serialization?.serialize ?? ((v: D) => v);
-  const deserialize = config?.serialization?.deserialize ?? (v => v as D);
+  const deserialize = config?.serialization?.deserialize ?? (v => v as D | undefined);
 
   // Set global session storage access level for StoryType.Session, only when not already done but needed.
   if (
@@ -91,7 +91,7 @@ export const createStorage = <D = string>(key: string, fallback: D, config?: Sto
       return fallback;
     }
 
-    return deserialize(value[key]) ?? fallback;
+    return (await deserialize(value[key])) ?? fallback;
   };
 
   const set = async (valueOrUpdate: ValueOrUpdate<D>) => {
@@ -123,7 +123,7 @@ export const createStorage = <D = string>(key: string, fallback: D, config?: Sto
     // Check if the key we are listening for is in the changes object
     if (changes[key] === undefined) return;
 
-    const valueOrUpdate: ValueOrUpdate<D> = deserialize(changes[key].newValue);
+    const valueOrUpdate: ValueOrUpdate<D> = (await deserialize(changes[key].newValue)) ?? fallback;
 
     if (cache === valueOrUpdate) return;
 

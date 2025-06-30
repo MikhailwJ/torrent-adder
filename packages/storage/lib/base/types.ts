@@ -40,7 +40,7 @@ export type StorageConfig<D = string> = {
     /**
      * convert string value from storage to non-native values
      */
-    deserialize: (text: string | D) => D;
+    deserialize: (text: string | D) => Promise<D | undefined> | undefined;
   };
 };
 
